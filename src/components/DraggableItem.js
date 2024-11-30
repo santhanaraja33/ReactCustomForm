@@ -1,25 +1,20 @@
 import React from "react";
-import { useDrag } from "react-dnd";
 
 const DraggableItem = ({ type, label }) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type,
-    item: { type, label },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }));
+  const handleDragStart = (e) => {
+    e.dataTransfer.setData("item", JSON.stringify({ type, label }));
+  };
 
   return (
     <div
-      ref={drag}
+      draggable
+      onDragStart={handleDragStart}
       style={{
-        opacity: isDragging ? 0.5 : 1,
-        cursor: "move",
-        padding: "10px",
-        margin: "5px",
+        padding: "5px",
+        margin: "5px 0",
         border: "1px solid black",
-        backgroundColor: "#fff",
+        borderRadius: "5px",
+        cursor: "grab",
       }}
     >
       {label}
